@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	experimental: {
+		authInterrupts: true, // ✅ Enable auth interrupts
+	},
 };
 
 export default nextConfig;
