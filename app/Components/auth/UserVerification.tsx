@@ -6,16 +6,24 @@ import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TokenVerificationAction from "@/app/Action/AuthActions/TokenVerificationAction";
-
+import UserAccountVerification from "@/app/Action/AuthActions/UserAccountVerification";
 const Page = ({ token }: { token: string | null }) => {
     const [userVerified, setUserVerified] = useState<boolean | null>(null);
     const router = useRouter();
     useEffect(() => {
         (async function () {
-            const res = await TokenVerificationAction(token!);
-            if (res === false) router.replace("/unauthorized");
+            TokenVerificationAction(token!).then((res) => {
+                if (res !== null)
+                    if (res === false) router.replace("/unauthorized");
+            });
         })();
     });
+
+    async function verifyUserAccount(status: boolean) {
+        UserAccountVerification(token, status)
+            .then((res) => {})
+            .catch((err) => {});
+    }
 
     function redirectToLogin() {
         router.push("/auth/login");
@@ -120,7 +128,7 @@ const Page = ({ token }: { token: string | null }) => {
                                         fontWeight: "bold",
                                         marginTop: 2,
                                     }}
-                                    onClick={() => setUserVerified(false)}
+                                    onClick={() => verifyUserAccount(false)}
                                 >
                                     Un-Authorize
                                 </Button>
@@ -132,7 +140,7 @@ const Page = ({ token }: { token: string | null }) => {
                                         fontWeight: "bold",
                                         marginTop: 2,
                                     }}
-                                    onClick={() => setUserVerified(true)}
+                                    onClick={() => verifyUserAccount(true)}
                                 >
                                     Authorize
                                 </Button>

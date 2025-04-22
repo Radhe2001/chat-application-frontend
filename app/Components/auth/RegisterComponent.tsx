@@ -96,8 +96,37 @@ const RegisterComponent = () => {
             return;
         } else {
             // setRegistered(true);
+            setProgress(false);
             const res = await RegisterAction({ username, email, password });
             console.log(res);
+            const { status, data } = res;
+            if (status === 200) {
+                setWarning({
+                    open: true,
+                    message: "Account Registered successfully",
+                });
+                setRegistered(true);
+                setTimeout(() => {
+                    setWarning({ open: false, message: "" });
+                }, 3000);
+            } else if (status === 409) {
+                setWarning({
+                    open: true,
+                    message: "User with the same email already exists",
+                });
+                setTimeout(() => {
+                    setWarning({ open: false, message: "" });
+                }, 3000);
+            } else {
+                setWarning({
+                    open: true,
+                    message:
+                        "Oops!! some unexpected error occured.Please try again!!",
+                });
+                setTimeout(() => {
+                    setWarning({ open: false, message: "" });
+                }, 3000);
+            }
         }
     }
     function redirectToLogin() {
@@ -191,6 +220,7 @@ const RegisterComponent = () => {
                                 id="outlined-basic"
                                 label="Email"
                                 variant="outlined"
+                                type="email"
                                 sx={{
                                     width: 500,
                                 }}
@@ -203,6 +233,7 @@ const RegisterComponent = () => {
                                 required
                                 id="outlined-basic"
                                 label="Password"
+                                type="password"
                                 variant="outlined"
                                 sx={{
                                     width: 500,
