@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import TokenVerificationAction from "@/app/Action/AuthActions/TokenVerificationAction";
 import UserAccountVerification from "@/app/Action/AuthActions/UserAccountVerification";
-const Page = ({ token }: { token: string | null }) => {
+const ForgotUserPassword = ({ token }: { token: string | null }) => {
     const [userVerified, setUserVerified] = useState<boolean | null>(null);
     const router = useRouter();
     useEffect(() => {
@@ -165,4 +165,4 @@ const Page = ({ token }: { token: string | null }) => {
     );
 };
 
-export default Page;
+export default ForgotUserPassword;

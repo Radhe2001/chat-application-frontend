@@ -1,10 +1,13 @@
 "use server";
 import axios from "axios";
 
-const UserAccountVerification = async (
-    token: string | null,
-    status: boolean
-): Promise<{ status: number; data: string | null }> => {
+const UserAccountVerification = async ({
+    token,
+    status,
+}: {
+    token: string | null;
+    status: boolean;
+}): Promise<{ status: number; data: string | null }> => {
     const registrationInput = {
         verificationToken: token,
         taskType: status ? "accountAuth" : "accountDeauth",

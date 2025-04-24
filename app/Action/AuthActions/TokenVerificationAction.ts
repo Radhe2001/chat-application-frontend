@@ -2,9 +2,11 @@
 
 import axios from "axios";
 
-const TokenVerificationAction = async (
-    token: string | null
-): Promise<boolean | null> => {
+const TokenVerificationAction = async ({
+    token,
+}: {
+    token: string | null;
+}): Promise<boolean | null> => {
     if (!token) return null;
     const registrationInput = {
         verificationToken: token,

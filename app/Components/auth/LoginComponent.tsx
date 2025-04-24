@@ -18,6 +18,8 @@ import {
 import { useAppDispatch } from "@/app/redux/store";
 import { toggleThemeMode } from "@/app/redux/Slices/theme/themeSlice";
 import { useState } from "react";
+import UserLogin from "@/app/Action/AuthActions/UserLogin";
+import { useRouter } from "next/navigation";
 
 const LoginComponent = () => {
     const dispatch = useAppDispatch();
@@ -25,7 +27,7 @@ const LoginComponent = () => {
     const [password, setPassword] = useState("");
     const [progress, setProgress] = useState(false);
     const [warning, setWarning] = useState({ open: false, message: "" });
-
+    const router = useRouter();
     function handleClick() {
         dispatch(toggleThemeMode());
     }
@@ -69,6 +71,39 @@ const LoginComponent = () => {
                 setProgress(false);
             }, 3000);
             return;
+        } else {
+            UserLogin({ email, password })
+                .then((res) => {
+                    if (res.status === 200) {
+                        if (typeof res.data! !== "string" || res.data) {
+                            localStorage.setItem(
+                                "token",
+                                res.data!.token.toString()
+                            );
+                            setProgress(false);
+                            router.push("/chat");
+                        }
+                    } else {
+                        setWarning({
+                            open: true,
+                            message: res.data!,
+                        });
+                        setTimeout(() => {
+                            setWarning({ open: false, message: "" });
+                        }, 3000);
+                        setProgress(false);
+                    }
+                })
+                .catch((err) => {
+                    setWarning({
+                        open: true,
+                        message: "Oops!! some unexpectd error occured.",
+                    });
+                    setTimeout(() => {
+                        setWarning({ open: false, message: "" });
+                    }, 3000);
+                    setProgress(false);
+                });
         }
     }
     return (

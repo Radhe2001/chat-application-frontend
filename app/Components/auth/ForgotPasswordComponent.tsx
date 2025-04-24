@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import ForgotPassword from "@/app/Action/AuthActions/ForgotPassword";
+
 const ForgotPasswordComponent = () => {
     const router = useRouter();
     const [email, setEmail] = useState("");
@@ -36,7 +38,41 @@ const ForgotPasswordComponent = () => {
             }, 3000);
             return;
         }
-        setReseted(true);
+        ForgotPassword({ email })
+            .then((res) => {
+                if (res.status === 200) {
+                    setProgress(false);
+                    setReseted(true);
+                } else if (res.status === 404) {
+                    setWarning({
+                        open: open,
+                        message: "User with this email does not exists",
+                    });
+                    setTimeout(() => {
+                        setWarning({ open: false, message: "" });
+                        setProgress(false);
+                    }, 3000);
+                } else {
+                    setWarning({
+                        open: open,
+                        message: res.data,
+                    });
+                    setTimeout(() => {
+                        setWarning({ open: false, message: "" });
+                        setProgress(false);
+                    }, 3000);
+                }
+            })
+            .catch((err) => {
+                setWarning({
+                    open: open,
+                    message: "Oops!! Some unexpected error occured",
+                });
+                setTimeout(() => {
+                    setWarning({ open: false, message: "" });
+                    setProgress(false);
+                }, 3000);
+            });
     }
 
     const validateCredentials = (): { open: boolean; message: string } => {
@@ -156,7 +192,6 @@ const ForgotPasswordComponent = () => {
                                 "Reset"
                             )}{" "}
                         </Button>
-
                         <Stack
                             direction={"row"}
                             gap={1}
