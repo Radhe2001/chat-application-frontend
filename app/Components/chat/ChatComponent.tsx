@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/app/redux/store";
-import { Avatar, Box, Chip, Container, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import DoneIcon from "@mui/icons-material/Done";

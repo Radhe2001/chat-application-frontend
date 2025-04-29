@@ -1,13 +1,6 @@
 "use client";
 
-import {
-    Avatar,
-    Box,
-    Button,
-    Container,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
 
 const EmptyChatComponent = () => {
     return (

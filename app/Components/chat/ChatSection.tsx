@@ -6,13 +6,11 @@ import {
     Avatar,
     Container,
     IconButton,
-    Input,
     Stack,
     TextField,
     Toolbar,
     Typography,
 } from "@mui/material";
-import { toggleThemeMode } from "@/app/redux/Slices/theme/themeSlice";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
 import { useState } from "react";

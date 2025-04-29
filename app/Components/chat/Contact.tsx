@@ -4,7 +4,6 @@ import {
     Avatar,
     Badge,
     Box,
-    Button,
     ButtonBase,
     Container,
     IconButton,
@@ -38,6 +37,9 @@ const Contact = () => {
     const [searchOpen, setSearchOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const appBarRef = useRef<HTMLElement | null>(null);
+    const connection = useAppSelector(
+        (state) => state.signalRConnection.connection
+    );
     const [contactList, setContactList] = useState<Array<ContactType>>([
         {
             id: 1,
@@ -166,6 +168,8 @@ const Contact = () => {
     useEffect(() => {
         setSearchOpen(Boolean(anchorEl));
         setId(searchOpen ? "simple-popover" : undefined);
+
+        console.log(connection);
     }, []);
     function handleSearchPopoverClose() {
         setAnchorEl(null);
